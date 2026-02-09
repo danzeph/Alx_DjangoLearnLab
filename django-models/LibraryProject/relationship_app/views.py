@@ -24,7 +24,6 @@ class LibraryDetailView(DetailView):
         return obj
     
 
-from django.contrib.auth import login
 
 class RegisterUserView(CreateView):
     template_name = 'relationship_app/register.html'
@@ -43,6 +42,6 @@ class UserLoginView(LoginView):
     next_page = reverse_lazy('book-list')
 
 
-class UserLogoutView(LogoutView):
-    template_name ='relationship_app/logout.html'
+# class UserLogoutView(LogoutView):
+#     template_name ='relationship_app/logout.html'
     
