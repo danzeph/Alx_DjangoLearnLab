@@ -8,7 +8,7 @@ def list_books(request):
     return render(request,'relationship_app/list_books.html', {'books':books})
 
 
-class BookDetailView(DetailView):
+class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     model = Library
     def get_object(self):
