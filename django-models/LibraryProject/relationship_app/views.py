@@ -37,9 +37,9 @@ class RegisterUserView(CreateView):
 
 
 
-class UserLoginView(LoginView):
-    template_name = 'relationship_app/login.html'
-    next_page = reverse_lazy('book-list')
+# class UserLoginView(LoginView):
+#     template_name = 'relationship_app/login.html'
+#     next_page = reverse_lazy('book-list')
 
 
 # class UserLogoutView(LogoutView):
