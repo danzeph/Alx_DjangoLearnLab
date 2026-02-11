@@ -1,9 +1,11 @@
-from django.http import Http404
+# from django.http import Http404
 from django.shortcuts import redirect, render
 from .models import Library, Book
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.db import models
+from django.contrib.auth.models import User
 
 
 def list_books(request):
@@ -14,11 +16,12 @@ def list_books(request):
 class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     model = Library
-    def get_object(self):
-        obj = Library.objects.first()
-        if not obj:
-            raise Http404("No Library object found")
-        return obj
+    context_object_name = 'library'
+    # def get_object(self):
+    #     obj = Library.objects.first()
+    #     if not obj:
+    #         raise Http404("No Library object found")
+    #     return obj
     
 
 
