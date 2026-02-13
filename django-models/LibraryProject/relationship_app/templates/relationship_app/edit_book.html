@@ -8,7 +8,7 @@
 <body>
     <h1>Update form</h1>
 <form action="{% url '/' %}" method="post">
-    {{ form.as_p}}
+    {{ form.as_p }}
     <button type="submit">update</button>
     <a href="{% url 'book-detail' %}"> go back</a>
 </form>
