@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import user_passes_test, permission_required
+from django.contrib.auth.decorators import permission_required
 from .forms import BookForm
 from .admin_view import is_admin
 from .librarian_view import is_librarian
