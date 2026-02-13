@@ -53,8 +53,9 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def user_created(sender,instance, created, **kwargs):
-    UserProfile.objects.get_or_create(user=instance, role='Member')
-    print("Your profile has successfuly been created")
-    
+    if created:
+        UserProfile.objects.get_or_create(user=instance, role='Member')
+        print("Your profile has successfuly been created")
+        
 
 

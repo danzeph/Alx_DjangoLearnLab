@@ -4,5 +4,5 @@ from .models import GeeksModel
 
 class GeeksList(ListView):
     model = GeeksModel
-    template_name = "geeks/geeksmodel_list.html"   # template path
-    context_object_name = "object_list"            # list name in template
+    template_name = "geeks/geeksmodel_list.html"   
+    context_object_name = "object_list"            

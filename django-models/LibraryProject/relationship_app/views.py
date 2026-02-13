@@ -1,4 +1,4 @@
-# from django.http import Http404
+from django.http import Http404
 from django.shortcuts import redirect, render
 from .models import Library, Book
 from django.views.generic.detail import DetailView
@@ -17,11 +17,11 @@ class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     model = Library
     context_object_name = 'library'
-    # def get_object(self):
-    #     obj = Library.objects.first()
-    #     if not obj:
-    #         raise Http404("No Library object found")
-    #     return obj
+    def get_object(self):
+        obj = Library.objects.first()
+        if not obj:
+            raise Http404("No Library object found")
+        return obj
     
 
 
@@ -33,6 +33,6 @@ def register(request):
             user = form.save()
             login(request, user)
             return redirect('book-list')
-        else:
-            form = UserCreationForm()
-        return render(request,template_name,{'form':form})
+    else:
+        form = UserCreationForm()
+    return render(request,template_name,{'form':form})
