@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from .models import UserProfile
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def user_created(sender,instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance, role='Member')
+        UserProfile.objects.get_or_create(user=instance, defaults={'role':'Member'})
+        print("Your profile has successfuly been created")

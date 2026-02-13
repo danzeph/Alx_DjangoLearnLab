@@ -51,11 +51,7 @@ class UserProfile(models.Model):
         return f"{self.user.username} - {self.role}"
 
 
-@receiver(post_save, sender=User)
-def user_created(sender,instance, created, **kwargs):
-    if created:
-        UserProfile.objects.get_or_create(user=instance, role='Member')
-        print("Your profile has successfuly been created")
+
         
 
 
