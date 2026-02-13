@@ -19,7 +19,13 @@ class Book(models.Model):
         on_delete=models.CASCADE,
         related_name='books'
         )
-    
+    class Meta:
+        permissions = [
+            ("can_add_book", "can add a book"),
+            ("can_change_book", "can change a book"),
+            ("can_delete_book", "can delete a book"),
+        ]
+
     def __str__(self):
         return self.title
 
