@@ -13,7 +13,7 @@ class GeeksModel(models.Model):
     def __str__(self):
         return self.title
     
-class CustomerUserModel(AbstractUser):
+class CustomerUse(AbstractUser):
     date_of_birth = models.models.DateField()
     profile_picture = models.ImageField()
 
