@@ -19,7 +19,7 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
-admin.site.register(CustomUser,CustomUserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
     
 # @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
