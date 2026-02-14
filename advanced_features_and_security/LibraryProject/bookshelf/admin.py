@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Book, CustomUser
 
-@admin.register(CustomUser)
+# @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     list_display = ("username", "email", "date_of_birth", "is_staff")
     search_fields = ("username",)
@@ -19,14 +19,14 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
-
+admin.site.register(CustomUser,CustomUserAdmin)
     
-@admin.register(Book)
+# @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'publication_year')
     list_filter = ('title', 'publication_year')
 
     search_fields = ('title', 'author', 'publication_year')
 
-# admin.site.register(Book)
+admin.site.register(Book, BookAdmin)
 
