@@ -14,13 +14,6 @@ class Book(models.Model):
             ("can_edit", "Can edit a book"),
             ("can_delete", "Can delete a book")
         ]
-
-class GeeksModel(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.title
     
 
 class CustomUserManager(BaseUserManager):
