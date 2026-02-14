@@ -1,11 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import Permission
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     publication_year = models.IntegerField()
+    class Meta:
+        permissions =[
+            ("can_view", "Can View book"),
+            ("can_create", "Can create a book"),
+            ("can_edit", "Can edit a book"),
+            ("can_delete", "Can delete a book")
+        ]
 
 class GeeksModel(models.Model):
     title = models.CharField(max_length=100)
@@ -49,3 +57,5 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+
