@@ -13,15 +13,15 @@ class GeeksModel(models.Model):
     def __str__(self):
         return self.title
     
-class CustomerUse(AbstractUser):
-    date_of_birth = models.models.DateField()
-    profile_picture = models.ImageField()
+class CustomeUser(AbstractUser):
+    date_of_birth = models.DateField()
+    profile_photo = models.ImageField()
 
     def __str__(self):
         return self.username
     
 
-class UserManager(BaseUserManager):
+class CustomeUserManager(BaseUserManager):
     def create_user(self, email,password=None):
         pass
 
