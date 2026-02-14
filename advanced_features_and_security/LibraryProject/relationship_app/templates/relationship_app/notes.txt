@@ -1,0 +1,13 @@
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+from myapp.models import Document
+
+# 1. Get the content type for your model
+content_type = ContentType.objects.get_for_model(Document)
+
+# 2. Filter permissions by that content type
+permissions = Permission.objects.filter(content_type=content_type)
+
+# 3. Print the codename (what you use in code) and the name (what humans read)
+for perm in permissions:
+    print(f"{perm.codename} | {perm.name}")
