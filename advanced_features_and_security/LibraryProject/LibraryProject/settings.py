@@ -27,8 +27,8 @@ SECRET_KEY = 'django-insecure-md@24g@k=p(c_&en%qww54e@txmj9)=ksro^e5=g4odi-l82)i
 DEBUG = False
 
 Security Headers
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 x_FRAME_OPTIONS = 'DENY'
 
 # Enforce HTTPS for cookies
@@ -36,9 +36,9 @@ SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-# Use HttpOnlly for cookies
-# CSRF_COOKIE_HTTPONLY = True
-# SESSION_COOKIE_HTTPONLY = True
+Use HttpOnlly for cookies
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
 
 # HSTS (HTTP Strict Transport Security)
 SECURE_HSTS_SECONDS = 31536000  # 1 year
