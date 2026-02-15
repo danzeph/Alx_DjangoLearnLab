@@ -19,7 +19,7 @@ def book_create(request):
             return redirect('book_list')
     else:
         form = ExampleForm()
-    return render(request, 'bookshelf/book_form.html', {'form': form})
+    return render(request, 'bookshelf/form_example.html', {'form': form})
 
 # Edit a Book
 @permission_required('bookshelf.can_edit', raise_exception=True)
@@ -32,7 +32,7 @@ def book_edit(request, pk):
             return redirect('book_list')
     else:
         form = ExampleForm(instance=book)
-    return render(request, 'bookshelf/book_form.html', {'form': form})
+    return render(request, 'bookshelf/form_example.html', {'form': form})
 
 # Delete a Book
 @permission_required('bookshelf.can_delete', raise_exception=True)
