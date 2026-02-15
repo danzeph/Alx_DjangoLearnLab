@@ -26,17 +26,22 @@ SECRET_KEY = 'django-insecure-md@24g@k=p(c_&en%qww54e@txmj9)=ksro^e5=g4odi-l82)i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# Security Headers
+Security Headers
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+<<<<<<< HEAD
 
 x_FRAME_OPTIONS = 'DENY'
+=======
+X_FRAME_OPTIONS = 'DENY'
+>>>>>>> 45ed49f9a73e5779c14f7644a58b18fd4b3b59f0
 
-# Enforce HTTPS for cookies
+Enforce HTTPS for cookies
+SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-# Use HttpOnlly for cookies
+Use HttpOnlly for cookies
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 
@@ -47,7 +52,8 @@ SECURE_HSTS_PRELOAD = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-
+# Trust X-Forwarded-Proto header from proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
