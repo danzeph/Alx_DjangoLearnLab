@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'api'
-    # 'rest_framework.auth'
+    'api',
+    'rest_framework.authtoken',
 ]
 # Rest framework conf
 REST_FRAMEWORK = {
@@ -49,6 +49,16 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
     # 'DATETIME_INPUT_FORMATS':"%Y-%m-%d",
     # 'DATE_FORMAT':"%Y-%m-%d",
+
+    # Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
+
+    # Permissions 
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+
 }
 
 MIDDLEWARE = [
