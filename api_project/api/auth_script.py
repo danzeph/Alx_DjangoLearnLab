@@ -2,13 +2,13 @@ import requests
 
 # CONFIGURATION
 
-BASE_URL = "http://127.0.0.1:8000/api"
+BASE_URL = "http://127.0.0.1:8000/api/"
 BOOK_LIST_URL = BASE_URL + "books/"
 BOOK_CRUD_URL = BASE_URL + "book_all/"
 
 
 # TOKEN = "My_token_can't be viewed here so i will rather paste in the terminal"
-TOKEN = input("Enter the token to do test if tokenization and permission works")
+TOKEN = input("Enter your token")
 
 headers = {
     "Authorization": f"Token {TOKEN}",
@@ -22,14 +22,19 @@ def get_books():
 
     print("GET BOOKS RESPONSE:")
     print("Status:", response.status_code)
-    print(response.json())
-
+    data = response.json()
+    if response.status_code == 200:
+        for book in data["results"]:
+            print(book)
+    else:
+        print(data)
 
 # CREATE BOOK (Admin Only)
 def create_book():
     data = {
         "title": "New API Book",
-        "author": "System Script"
+        "author": "System Script",
+        "published_date":"2010-01-13",
     }
 
     response = requests.post(
@@ -91,9 +96,9 @@ if __name__ == "__main__":
 
     create_book()          # Works ONLY if admin token
 
-    update_book(1)         # Change ID if needed and works only for admin/superuser
+    update_book(8)         # Change ID if needed and works only for admin/superuser
 
-    delete_book(2)         # Change ID if needed and only works for admin/superuser
+    delete_book(13)         # Change ID if needed and only works for admin/superuser
 
 
 # Check Results with different tokens (admin/superuser and other user) in the auth_script.md
