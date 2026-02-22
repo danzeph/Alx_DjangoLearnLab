@@ -47,6 +47,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     # This cleans up every DateTimeField 
     # 'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
+    'DATETIME_INPUT_FORMATS':"%Y-%m-%d",
     'DATETIME_FORMAT':"%Y-%m-%d",
 }
 
