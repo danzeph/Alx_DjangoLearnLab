@@ -8,7 +8,7 @@ BOOK_CRUD_URL = BASE_URL + "book_all/"
 
 
 # TOKEN = "My_token_can't be viewed here so i will rather paste in the terminal"
-TOKEN = input("Enter your token")
+TOKEN = input("Enter your token: ")
 
 headers = {
     "Authorization": f"Token {TOKEN}",
