@@ -10,6 +10,6 @@ class BookList(generics.ListAPIView):
 
 
 # Model Viewset class to do CRUD operations
-class BookViewset(ModelViewSet):
+class BookViewSet(ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
