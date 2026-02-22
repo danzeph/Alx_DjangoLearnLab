@@ -46,9 +46,9 @@ REST_FRAMEWORK = {
   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     # This cleans up every DateTimeField 
-    # 'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
-    'DATETIME_INPUT_FORMATS':"%Y-%m-%d",
-    'DATETIME_FORMAT':"%Y-%m-%d",
+    'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
+    # 'DATETIME_INPUT_FORMATS':"%Y-%m-%d",
+    # 'DATE_FORMAT':"%Y-%m-%d",
 }
 
 MIDDLEWARE = [
