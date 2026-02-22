@@ -1,6 +1,16 @@
-from django.urls import path
+from django.urls import include, path
+from api.views import BookList, BookViewset
+from rest_framework.routers import DefaultRouter
 
-from api.views import BookList
+router = DefaultRouter()
+
+router.register(r'book_all', BookViewset, basename='book_all')
+
 urlpatterns = [
-    path('books/', BookList.as_view(), name='book-list')
+    # Route for the BookList View (ListAPIView)
+    path('books/', BookList.as_view(), name='book-list'),
+
+    # Include the router urls for BookViewset - CRUD operatons 
+    # All routers are auto-generated because of the router
+    path('', include(router.urls)) 
 ]

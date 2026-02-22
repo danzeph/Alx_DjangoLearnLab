@@ -41,6 +41,14 @@ INSTALLED_APPS = [
     'api'
     # 'rest_framework.auth'
 ]
+# Rest framework conf
+REST_FRAMEWORK = {
+  'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    # This cleans up every DateTimeField 
+    # 'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
+    'DATETIME_FORMAT':"%Y-%m-%d",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
