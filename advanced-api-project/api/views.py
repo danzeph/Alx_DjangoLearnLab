@@ -8,16 +8,19 @@ from .serializers import AuthorSerializer, BookSerializer
 class ListView(generics.ListAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
-    filter_backends = [SearchFilter]
-    filtering_fields = ['title']
+    filter_backends = [SearchFilter, OrderingFilter]
+    ordering_fields = ['author__name']
+    search_fields = ['title']
 
 
-    # def get_queryset(self):
-    #     queryset = Book.objects.all()
-    #     title_filter = self.request.query_params.get('title', None)
-    #     if title_filter is not None:
-    #         queryset = queryset.filter(title__icontains=title_filter)
-    #     return queryset
+    def get_queryset(self):
+        """Custom method to filter based on book title"""
+        """Custom filters based on URL"""
+        queryset = Book.objects.all()
+        title_filter = self.request.query_params.get('title', None)
+        if title_filter is not None:
+            queryset = queryset.filter(title__icontains=title_filter)
+        return queryset
 
 
 class DetailView(generics.RetrieveAPIView):

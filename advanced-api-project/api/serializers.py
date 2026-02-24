@@ -5,11 +5,14 @@ from datetime import date
 
 class BookSerializer(serializers.ModelSerializer):
     """Serializer for the book model including all fields"""
+    # author = serializers.StringRelatedField()
+    # author = AuthorSerilizer(read_only=True) # Brings error if 
+    # Authorizer not defined before this
     class Meta:
         model = Book
         fields = '__all__'
 
-    def validate_plublication_year(self,value):
+    def validate_publication_year(self,value):
         """
         Check that the publication is not in the future
         """
@@ -18,6 +21,13 @@ class BookSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 f"Publication year {value} cannot be in the future, current year: {current_year}"
             )
+        return value
+        
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.author:
+            representation['author'] = instance.author.name
+        return representation
 
 
 class AuthorSerializer(serializers.ModelSerializer):
