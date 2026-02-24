@@ -6,6 +6,7 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = '__all__'
 
+   
 
         
 
