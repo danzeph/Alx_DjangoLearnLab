@@ -11,6 +11,8 @@ class ListView(generics.ListAPIView):
     filter_backends = [SearchFilter, OrderingFilter]
     ordering_fields = ['author__name']
     search_fields = ['title']
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 
     def get_queryset(self):
@@ -26,12 +28,15 @@ class ListView(generics.ListAPIView):
 class DetailView(generics.RetrieveAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class CreateView(generics.CreateAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
     permission_classes = [IsAuthenticated]
+    
+    # def create
 
 
 class UpdateView(generics.RetrieveUpdateAPIView):
