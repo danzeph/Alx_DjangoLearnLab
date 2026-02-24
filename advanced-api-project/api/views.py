@@ -36,7 +36,8 @@ class CreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     permission_classes = [IsAuthenticated]
     
-    # def create
+    # def perform_create(self, serializer):
+    #     return super().perform_create(serializer)
 
 
 class UpdateView(generics.RetrieveUpdateAPIView):
