@@ -1,2 +1,6 @@
-# Introduction_to_Django
-for alx intro into django project
+# Django Models
+## login views
+## logout views
+## Registration form
+## Protected Views
+## role based views
