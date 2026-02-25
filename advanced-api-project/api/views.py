@@ -1,17 +1,19 @@
 from django.shortcuts import render
-from rest_framework import generics #, status
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.filters import OrderingFilter,SearchFilter
 from api.models import Book
 from .serializers import BookSerializer
-# from rest_framework.response import Response
+from django_filters import rest_framework
+from rest_framework.response import Response
 
 class ListView(generics.ListAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
-    filter_backends = [SearchFilter, OrderingFilter]
+    filter_backends = [rest_framework.DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ['title','publication_year']
-    search_fields = ['title', 'author']
+    search_fields = ['title',]
+    filterset_fields = ['title', 'author', 'publication_year']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
@@ -37,20 +39,21 @@ class CreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     permission_classes = [IsAuthenticated]
     
-    # def create(self, request, *args, **kwargs):
-    #     serializer = BookSerializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(
-    #         {
-    #             "message":"Book created successfully",  
-    #             "data":serializer.data
-    #         }, 
-    #         status=status.HTTP_201_CREATED
-    #         )
-
-    # def perform_create(self, serializer):
-    #     return super().perform_create(serializer)
+    def create(self, request, *args, **kwargs):
+        # 1. Initialize serializer with request data
+        serializer = self.get_serializer(data=request.data)
+        
+        # 2. Validate data
+        serializer.is_valid(raise_exception=True)
+        
+        # 3. Perform the actual creation (calls perform_create)
+        self.perform_create(serializer)
+        
+        # 4. Return a custom response
+        return Response(
+            {"message": "Custom success message", "data": serializer.data},
+            status=status.HTTP_201_CREATED,
+        )
 
 class UpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BookSerializer
