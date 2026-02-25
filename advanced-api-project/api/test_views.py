@@ -9,7 +9,7 @@ class BookAPITest(APITestCase):
 
     def setUp(self):
         """
-        Create test user, author, and book.
+        Create test user, author, and initial book instance.
         """
         self.user = User.objects.create_user(
             username='testuser',
@@ -30,7 +30,10 @@ class BookAPITest(APITestCase):
 
     def test_list_books(self):
         response = self.client.get(self.list_url)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], "1984")
 
 
     def test_create_book_authenticated(self):
@@ -43,7 +46,10 @@ class BookAPITest(APITestCase):
         }
 
         response = self.client.post(self.list_url, data)
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['title'], "Animal Farm")
+        self.assertEqual(response.data['publication_year'], 1945)
 
 
     def test_create_book_unauthenticated(self):
@@ -54,6 +60,7 @@ class BookAPITest(APITestCase):
         }
 
         response = self.client.post(self.list_url, data)
+
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
@@ -67,26 +74,36 @@ class BookAPITest(APITestCase):
         }
 
         response = self.client.put(self.detail_url, data)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['title'], "Updated Title")
 
 
     def test_delete_book(self):
         self.client.login(username='testuser', password='password123')
 
         response = self.client.delete(self.detail_url)
+
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Book.objects.filter(id=self.book.id).exists())
 
 
     def test_filter_books(self):
         response = self.client.get(self.list_url + '?publication_year=1949')
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['publication_year'], 1949)
 
 
     def test_search_books(self):
         response = self.client.get(self.list_url + '?search=1984')
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['title'], "1984")
 
 
     def test_order_books(self):
         response = self.client.get(self.list_url + '?ordering=title')
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(len(response.data) >= 1)
