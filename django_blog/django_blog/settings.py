@@ -65,10 +65,10 @@ TEMPLATES = [
             ],
         },
     },
-    # Added by danzeph
-     {
-        'DIRS': [BASE_DIR / 'templates'],
-    },
+    # # Added by danzeph
+    #  {
+    #     'DIRS': [BASE_DIR / 'templates'],
+    # },
 ]
 
 WSGI_APPLICATION = 'django_blog.wsgi.application'
