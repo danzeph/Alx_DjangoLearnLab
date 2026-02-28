@@ -6,12 +6,11 @@ from django.contrib.auth.decorators import login_required
 
 from blog.models import UserProfile
 
-# class CreateUserView(CreateView):
-#     template_name = "blog/register.html"
-#     form_class = RegistrationForm
-#     success_url = 'blog/profile'
 
 def register(request):
+    """for registring new users.
+        included fields from Usercreaion form( email, first and last name)
+    """
     template_name = "blog/register.html"
     if request.method == "POST":
         form = RegistrationForm(request.POST)
@@ -23,13 +22,7 @@ def register(request):
     return render(request, template_name, {"form":form})
 
 
-# class ProfileView(LoginRequiredMixin,DetailView):
-#     """Commented out to handle update_form, and profile_form"""
-#     template_name = 'blog/profile.html'
-#     model = UserProfile
 
-#     # def get_object(self):
-#     #     return self.request.user.profile
 
 @login_required
 def profile_update(request):
