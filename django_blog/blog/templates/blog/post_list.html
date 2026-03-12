@@ -16,7 +16,7 @@
             </a>
 
             <br>
-            <p>Content {{ post.content|truncatewords:30 }}</p>
+            <p>Content {{ post.content|truncatechars:30 }}...</p>
         </li>
 
     {% empty %}

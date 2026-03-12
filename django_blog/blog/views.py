@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from blog.forms import PostForm, RegistrationForm, UserProfileForm, UserUpdateForm
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -63,22 +64,21 @@ def profile_view(request):
 
 
 
-class PostListView(ListView):
+class ListView(ListView):
     template_name = 'blog/post_list.html'
     model = Post
     context_object_name = 'posts'
 
 
-class PostDetailView(DetailView):
+class DetailView(DetailView):
     template_name = 'blog/post_detail.html'
     context_object_name = 'post'
     model = Post
 
-class PostCreateView(CreateView,LoginRequiredMixin):
+class CreateView(CreateView,LoginRequiredMixin):
     form_class = PostForm
     template_name = "blog/post_create.html"
-    model = Post
-    # success_url = '/blog/home/'
+    success_url = reverse_lazy('post-list')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -86,23 +86,23 @@ class PostCreateView(CreateView,LoginRequiredMixin):
     
 
 
-class PostUpdateView(UpdateView, UserPassesTestMixin, LoginRequiredMixin):
+class UpdateView(UpdateView, UserPassesTestMixin, LoginRequiredMixin):
     template_name = 'blog/post_edit.html'
     context_object_name = 'post'
     form_class = PostForm
     queryset = Post.objects.all()
-    success_url = 'post-list'
+    success_url = reverse_lazy('post-list')
 
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
     
 
-class PostDeleteView(DeleteView, UserPassesTestMixin, LoginRequiredMixin):
+class DeleteView(DeleteView, UserPassesTestMixin, LoginRequiredMixin):
     template_name = 'blog/post_edit.html'
     context_object_name = Post.objects.all()
     form_class = PostForm
-    # success_url = '/blog/home/'
+    success_url = reverse_lazy('post-list')
 
     def test_func(self):
         obj = self.get_object()
