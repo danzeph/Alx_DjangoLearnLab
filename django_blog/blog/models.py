@@ -12,7 +12,7 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    # image = models.ImageField(upload_to='profile_pic')
+    image = models.ImageField(upload_to='profile_pic')
     bio = models.TextField()
 
     def __str__(self):
