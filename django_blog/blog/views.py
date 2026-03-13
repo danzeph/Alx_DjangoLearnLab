@@ -153,6 +153,14 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
 class CommentCreateView(LoginRequiredMixin,CreateView):
     template_name = "blog/comment_create.html"
     form_class = CommentForm
+    model = Comment
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["post"] = Post.objects.get(pk=self.kwargs['post_id'])
+        return context
+    
 
     def form_valid(self, form):
         form.instance.author = self.request.user
