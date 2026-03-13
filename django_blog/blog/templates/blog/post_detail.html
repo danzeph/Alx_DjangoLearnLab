@@ -10,7 +10,7 @@
     <p><strong>Author:</strong> {{ post.author.username }} </p>
     <p><strong>Published:</strong> {{ post.published_date }}</p>
     <p><strong>Content:</strong> {{ post.content }}
-    </div>
+</div>
 
 <div class = "actions">
     <a href="{% url 'post-update' post.id %}">Edit</a> |
@@ -21,14 +21,14 @@
 
 <div class = "comments">
     <h3> Comments </h3>
-    {% if post.comments %}
+    {% if comments %}
     <ul>
-    {% for comment in post.comments %}
+    {% for comment in comments %}
     <li>
         <p>{{ comment.content }} by <strong>{{ comment.author }}</strong></p>
         {% if comment.author == user %}
-        {% comment %} <a href="{% url 'edit-comment' comment.id %}">Edit</a> {% endcomment %}
-        {% comment %} <a href="{% url 'delete-comment' comment.id %}">Delete</a> {% endcomment %}
+        <a href="{% url 'edit-comment' post.id comment.id %}">Edit</a>
+        <a href="{% url 'delete-comment' post.id comment.id %}">Delete</a>
         {% endif %}
     </li>
        

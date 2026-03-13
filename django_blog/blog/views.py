@@ -100,11 +100,13 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy('post-list')
 
     def test_func(self):
+        """allow only author to perform this actions"""
         obj = self.get_object()
         return obj.author == self.request.user
     
     def handle_no_permission(self):
-        messages.warning("You are not the owner of this post.")
+        """sends a message and redirect if no permission"""
+        messages.error(self.request, "You are not the owner of this post.")
         return redirect('post-list')
 
     
@@ -116,11 +118,13 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
     success_url = reverse_lazy('post-list')
 
     def test_func(self):
+        """allow only author to perform this actions"""
         obj = self.get_object()
         return obj.author == self.request.user
     
     def handle_no_permission(self):
-        messages.warning(self.request, "You are not the owner of this post.")
+        """sends a message and redirect if no permission"""
+        messages.error(self.request, "You are not the owner of this post.")
         return redirect('post-list')
     
 
@@ -156,6 +160,7 @@ class CommentCreateView(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     def handle_no_permission(self):
+        """sends a message and redirect if no permission"""
         messages.error(self.request, "You must be logged in to comment")
         return redirect('login')
     
@@ -170,32 +175,37 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "blog/comment_edit.html"
     form_class = CommentForm
 
+
     def test_func(self):
+        """allow only author to perform this actions"""
         obj = self.get_object()
         return obj.author == self.request.user
     
+
     def handle_no_permission(self):
+        """sends a message and redirect if no permission"""
         messages.warning(self.request, "You are not the owner of this comment.")
         obj = self.get_object()
-        return redirect('post-detail', pk = obj.post.pk)
+        return redirect('post-detail', pk = obj.post.id)
 
     def get_success_url(self):
         obj = self.get_object()
         messages.success(self.request, "Comment updated successfully")
-        return reverse_lazy('post-detail', kwargs={'pk': obj.post.pk})
+        return reverse_lazy('post-detail', kwargs={'pk': obj.post.id})
+    
         
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
     template_name = "blog/comment_delete.html"
-    success_url = reverse_lazy('post-detail')
-    form_class = CommentForm
 
     def test_func(self):
+        """allow only author to perform this actions"""
         obj = self.get_object()
         return obj.author == self.request.user
     
     def handle_no_permission(self):
+        """sends a message and redirect if unauthored"""
         messages.warning(self.request, "You are not the owner of this comment.")
         obj = self.get_object()
         return redirect('post-detail', pk = obj.post.pk)
