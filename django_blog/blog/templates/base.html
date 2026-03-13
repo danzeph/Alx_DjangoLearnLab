@@ -1,42 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Django Blog{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
     <header>
-        <nav>
-            <ul>
-                {% comment %} <li><a href="{% url 'home' %}">Home</a></li> {% endcomment %}
-                {% comment %} <li><a href="{% url 'posts' %}">Blog Posts</a></li> {% endcomment %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-            </ul>
-        </nav>
+      <nav>
+        <ul>
+          {% comment %}
+          <li><a href="{% url 'home' %}">Home</a></li>
+          {% endcomment %}
+          <li><a href="{% url 'post-list' %}" >Blog Posts</a></li>
+         <li> {% if user.is_authenticated %}
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+          </form></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
+     {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}">
+                  {{ message }}
+        </div>
+            {% endfor %}
+        {% endif %}
 
     <div class="content">
-        {% block content %}
-        <!-- Page-specific content goes here -->
-        {% endblock %}
+      {% block content %}
+      {% endblock %}
+
     </div>
+    
 
-
-{% if messages %}
-    {% for message in messages %}
-        {% comment %} <div class="{{ message.tags }}"> {% endcomment %}
-            {{ message }}
-        {% comment %} </div> {% endcomment %}
-    {% endfor %}
-{% endif %}
     <footer>
-        <p>&copy; 2024 Django Blog</p>
+      <p>&copy; 2024 Django Blog</p>
     </footer>
 
     <script src="{% static 'js/scripts.js' %}"></script>
-</body>
+  </body>
 </html>

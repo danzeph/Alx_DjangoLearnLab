@@ -6,15 +6,40 @@
 
 <h2>{{ post.title }}</h2>
 
-<p>
+<div class = "post-details">
     <p><strong>Author:</strong> {{ post.author.username }} </p>
     <p><strong>Published:</strong> {{ post.published_date }}</p>
     <p><strong>Content:</strong> {{ post.content }}
-<b></br>
-<b></br>
-</p>
-<a href="{% url 'post-update' post.id %}">Edit</a> |
-<a href="{% url 'post-delete' post.id %}">Delete</a> |
-<a href="{% url 'post-list' %}">Back to Posts</a>
+    </div>
+
+<div class = "actions">
+    <a href="{% url 'post-update' post.id %}">Edit</a> |
+    <a href="{% url 'post-delete' post.id %}">Delete</a> |
+    <a href="{% url 'post-list' %}">Back to Posts</a>
+    <br></br>
+</div>
+
+<div class = "comments">
+    <h3> Comments </h3>
+    {% if post.comments %}
+    <ul>
+    {% for comment in post.comments %}
+    <li>
+        <p>{{ comment.content }} by <strong>{{ comment.author }}</strong></p>
+        {% if comment.author == user %}
+        {% comment %} <a href="{% url 'edit-comment' comment.id %}">Edit</a> {% endcomment %}
+        {% comment %} <a href="{% url 'delete-comment' comment.id %}">Delete</a> {% endcomment %}
+        {% endif %}
+    </li>
+       
+    {% endfor %}
+        
+        </ul>
+    {% else %}
+        <p> no comments currently </p>
+    {% endif %}
+    <br></br>
+    <a href = "{% url 'new-comment' post.id %}">Add comments</a>
+</div>
 
 {% endblock %}

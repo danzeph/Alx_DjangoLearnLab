@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h2>Delete Post</h2>
+<h2>Delete comment</h2>
 
 <p>Are you sure you want to delete "<strong>{{ post.title }}</strong>"?</p>
 
@@ -13,6 +13,6 @@
     <button type="submit">Yes, Delete</button>
 </form>
 
-<a href="{% url 'post-list' %}">Cancel</a>
+{% comment %} <a href="{% url 'post-detail' comment.post.id %}">Cancel?</a> {% endcomment %}
 
 {% endblock %}
