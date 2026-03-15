@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Comment, Post, UserProfile
+from taggit.models import Tag
 
 
 def register(request):
@@ -77,7 +78,7 @@ class PostDetailView(DetailView):
     model = Post
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["comments"] = Comment.objects.filter(post=self.object) 
+        context["comments"] = Comment.objects.filter(post=self.object)
         return context
     
 
@@ -104,10 +105,22 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         return obj.author == self.request.user
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tags"] = Tag.objects.all()
+        return context
+
+    # def form_valid(self, form):
+    #     if self.kwargs['tag_id']:
+    #         tag = Tag.objects.get(id=self.kwargs['tag_id'])
+    #         form.instance.tags.add(tag)
+    #     return super().form_valid(form)
+    
+    
     def handle_no_permission(self):
         """sends a message and redirect if no permission"""
         messages.error(self.request, "You are not the owner of this post.")
-        return redirect('post-list')
+        return redirect('post-detail',pk = self.get_object().pk)
 
     
     
@@ -168,7 +181,7 @@ class CommentCreateView(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     def handle_no_permission(self):
-        """sends a message and redirect if no permission"""
+        """sends a message and redirects if no permission"""
         messages.error(self.request, "You must be logged in to comment")
         return redirect('login')
     
@@ -186,20 +199,22 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         """allow only author to perform this actions"""
-        obj = self.get_object()
-        return obj.author == self.request.user
+        """ get_query set better in this instance"""
+        """ test_func necessary when we are checking or filtering based on roles"""
+        comment = self.get_object()
+        return comment.author == self.request.user
     
 
     def handle_no_permission(self):
         """sends a message and redirect if no permission"""
         messages.warning(self.request, "You are not the owner of this comment.")
-        obj = self.get_object()
-        return redirect('post-detail', pk = obj.post.id)
+        comment = self.get_object()
+        return redirect('post-detail', pk = comment.post.id)
 
     def get_success_url(self):
-        obj = self.get_object()
+        comment = self.object
         messages.success(self.request, "Comment updated successfully")
-        return reverse_lazy('post-detail', kwargs={'pk': obj.post.id})
+        return reverse_lazy('post-detail', kwargs={'pk': comment.post.id})
     
         
 
@@ -209,16 +224,16 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         """allow only author to perform this actions"""
-        obj = self.get_object()
-        return obj.author == self.request.user
+        comment = self.get_object()
+        return comment.author == self.request.user
     
     def handle_no_permission(self):
         """sends a message and redirect if unauthored"""
         messages.warning(self.request, "You are not the owner of this comment.")
-        obj = self.get_object()
-        return redirect('post-detail', pk = obj.post.pk)
+        comment = self.get_object()
+        return redirect('post-detail', pk = comment.post.pk)
 
     def get_success_url(self):
-        obj = self.get_object()
+        comment = self.object
         messages.success(self.request, "Comment updated successfully")
-        return reverse_lazy('post-detail', kwargs={'pk': obj.post.pk})
+        return reverse_lazy('post-detail', kwargs={'pk': comment.post.pk})

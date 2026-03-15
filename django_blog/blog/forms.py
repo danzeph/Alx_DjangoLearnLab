@@ -24,7 +24,18 @@ class UserUpdateForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title','content']
+        fields = ['title','content','tags']
+        required_fields = ['title','content']
+
+    def clean_content(self):
+        content = self.cleaned_data["content"]
+        if len(content) < 5:
+            raise forms.ValidationError("Post content should be more that 5 characters")
+        if "spam" in content:
+            raise forms.ValidationError(f"forbidden words like \"spam\" not allowed in post")
+        
+        return content
+    
 
 
 class CommentForm(forms.ModelForm):

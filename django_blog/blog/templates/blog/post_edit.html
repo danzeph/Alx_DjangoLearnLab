@@ -10,9 +10,17 @@
     {% csrf_token %}
     {{ form.as_p }}
 
+    <div class="tags">
+        <strong>Available tags:</strong>
+
+        {% for tag in tags %}
+            <span class="tag" onclick="addTag('{{ tag.name }}')">{{ tag.name }}</span>
+        {% endfor %}
+    </div>
+
     <button type="submit">Update Post</button>
 </form>
 
-<a href="{% url 'post-detail' post.id  %}">Cancel</a>
+<a href="{% url 'post-detail' post.id %}">Cancel</a>
 
 {% endblock %}
